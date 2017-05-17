@@ -1,18 +1,20 @@
-﻿# Create use cli menu
+﻿Param(
+    $computerName = $env:COMPUTERNAME
+)
 
 
 # Define Disk Quotas
-function setMailboxQuota($identity, $issueWarningQuota, $prohibitSendQuota, $prohibitSendReceiveQuota, $useDatabaseQuotaDefaults) {
+function set_mailbox_quota($identity, $issueWarningQuota, $prohibitSendQuota, $prohibitSendReceiveQuota, $useDatabaseQuotaDefaults) {
     Set-Mailbox -Identity $identity -IssueWarningQuota $issueWarningQuota `
     -ProhibitSendQuota $prohibitSendQuota -ProhibitSendReceiveQuota `
     $prohibitSendReceiveQuota -UseDatabaseQuotaDefaults $useDatabaseQuotaDefaults
 }
 
 # Set IPv4 Address
-function setIpv4Address() {}
+function set_ipv4_address() {}
 
 # Set IPv6 Address
-function setIpv6Address() {}
+function set_ipv6_address() {}
 
 
 # Create AD User
@@ -40,9 +42,26 @@ function setIpv6Address() {}
 
 
 # Start services (defualt only services set to auto-startup)
+function start_stopped_services($onlyAutoStartServices = $true) {
+    if($onlyAutoStartServices -eq $true) {
+        $onlyAutoStartServices = 'auto'
+    } else {
+        break
+    }
+
+    Get-WmiObject win32_service |
+        Where startmode -eq $onlyAutoStartServices |
+        Where state -eq 'stopped'
+}
 
 
 # Install AD
 
 
 # Configure AD
+
+
+# Get local Bios Params
+function get_bios_params() {
+    Get-WmiObject -Class win32_bios -ComputerName $computerName
+}

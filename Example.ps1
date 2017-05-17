@@ -1,13 +1,22 @@
-﻿Remove-Module cliMenu -ErrorAction SilentlyContinue; Import-Module .\cliMenu-master\CliMenu.psd1
+﻿. "$PSScriptRoot\functions.ps1"
 
-Set-MenuOption -Heading "Helpdesk Inteface System" -SubHeading "LOIS by Firstpoint" -MenuFillChar "#" -MenuFillColor DarkYellow
+Remove-Module cliMenu -ErrorAction SilentlyContinue; Import-Module .\cliMenu-master\CliMenu.psd1
+
+Set-MenuOption -Heading "Helpdesk Inteface System" -SubHeading "Show something to me" -MenuFillChar "#" -MenuFillColor DarkYellow
 Set-MenuOption -HeadingColor DarkCyan -MenuNameColor DarkGray -SubHeadingColor Green -FooterTextColor DarkGray
 Set-MenuOption -MaxWith 60
 
 $newItem1 = @{
-    Name = "WriteHost"
-    DisplayName = "Launch Write-Host as a GUI"
-    Action = { show-command -Name Write-host }
+    Name = "get_bios_params()"
+    DisplayName = "Show Local Machine info"
+    Action = { get_bios_params }
+    DisableConfirm = $true
+}
+
+$newItem3 = @{
+    Name = "StartStoppedServices"
+    DisplayName = "Start Stopped Services (Default is to start stopped services set to 'autostart')"
+    Action = { start_stopped_services }
     DisableConfirm = $true
 }
 
@@ -16,14 +25,12 @@ $newMenu = @{
     DisplayName = "Main Menu"
 }
 
-# Create a new menu Item
-$menuItem = New-MenuItem @newItem1
-
 # Create a new menu (first menu will become the main menu)
 $mainMenu = New-Menu @newMenu
 
-# Add menu item to the menu named 'main'
-$menuItem | Add-MenuItem -Menu main
+# Add menu ITEMS to the menu named 'main'
+New-MenuItem @newItem1 | Add-MenuItem -Menu main
+New-MenuItem @newItem3 | Add-MenuItem -Menu main
 
 $newItem2 = @{
     Name = "GoToSub"
