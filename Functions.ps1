@@ -65,6 +65,76 @@ function Set-EnableDHCPInterface($intName, $setDnsToAuto = $true) {
 
 
 # Create AD User
+function New-CsvADUsers($CsvFilePath = "C:\csvusers-list.txt"){
+    $Users = Import-Csv -Delimiter "," -Path $CsvFilePath
+    foreach ($User in $Users)
+    {
+        $ADServer = "DC-01.5.5.2017.test.netravnen.eu"
+        $SAM
+        $UserDisplayname = $User.Firstname + " " + $User.Lastname
+        $UPN = $SAM + "." `
+            + <#(Get-Date -UFormat "T%H%M%S") +#> "@" `
+            + $User.Maildomain
+        
+        try {
+            Get-ADUser -Identity $SAM -ErrorAction Stop
+        }
+        catch [Microsoft.ActiveDirectory.Management.ADIdentityNotFoundException]
+        {
+            Write-Warning -Message 'Account not found'
+        }
+        Finally
+        {
+            $Time = ((Get-Date -Format o).Split("{+}")[0]) -replace ".{4}$"
+            "This script made a read attempt at $Time" | out-file C:\Log\New-ADUser.log -append
+        }
+        
+        # Maximum length of SAM is 20 chars.
+        if ($SAM.length -gt 20) {
+            # Log a message telling the $User creation failed
+            <#
+            --> log error code to system log or custom log file here
+            #>
+            
+            # Stop creating current $User
+            break
+        }
+
+        # Create @var $UserInitials
+        $User.Firstname.split(' ') | foreach {$UserInitials += $_[0]}
+        $User.Othernames.split(' ') | foreach {$UserInitials += $_[0]}
+        $User.Lastname.split(' ') | foreach {$UserInitials += $_[0]}
+        
+        New-ADUser `
+            -AccountPassword (ConvertTo-SecureString $User.Password -AsPlainText -Force) `
+            -ChangePasswordAtLogon $false `
+            -City $User.City `
+            -Company $User.Company `
+            -Country $User.Country `
+            -Department $User.Department `
+            -Description $User.Description `
+            -DisplayName "$UserDisplayname" `
+            -Division $User.Division `
+            -EmployeeNumber $User.EmployeeNumber `
+            -Enabled $true `
+            -GivenName $User.Firstname `
+            -Intials $UserInitials `
+            -Manager $User.Manager `
+            -Name "$UserDisplayname" `
+            -OfficePhone $User.OfficePhone `
+            -OtherName $User.Othernames
+            -Path $User.OU `
+            -PostalCode $User.PostalCode `
+            -SamAccountName $SAM `
+            -State $User.State
+            -StreetAddress $User.StreetAddress `
+            -Surname $User.Lastname `
+            -Title $User.Title `
+            -UserPrincipalName $SAM `
+            -server domain.loc `
+            -PasswordNeverExpires $true `
+    }
+}
 
 
 # Modify existing AD User
