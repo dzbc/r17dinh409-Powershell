@@ -1,5 +1,6 @@
 Param(
-    $computerName = $env:COMPUTERNAME
+    $computerName = $env:COMPUTERNAME,
+    $computerTimestamp = ((Get-Date -Format o).Split("{+}")[0]) -replace ".{4}$"
 )
 
 
