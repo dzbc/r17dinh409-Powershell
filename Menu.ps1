@@ -28,6 +28,12 @@ $newItemX = @{ #Array to store menu point in
     DisableConfirm = $true #OPTIONAL. Only include to avoid confirm dialog after choosing menu entry
 #>
 
+$newItem4 = @{
+    Name = "AddUsersToADFromCsvFile"
+    DisplayName = "Create AD Users from Csv file"
+    Action = { New-CsvADUsers }
+}
+
 $newMenu = @{
     Name = "Main"
     DisplayName = "Main Menu"
@@ -39,6 +45,7 @@ $mainMenu = New-Menu @newMenu
 # Add menu ITEMS to the menu named 'main'
 New-MenuItem @newItem1 | Add-MenuItem -Menu main
 New-MenuItem @newItem3 | Add-MenuItem -Menu main
+New-MenuItem @newItem4 | Add-MenuItem -Menu main
 
 $newItem2 = @{
     Name = "GoToSub"
