@@ -202,3 +202,34 @@ Function Get-DoesFolderExist($Path)
 }
 
 
+# Create new folder
+Function New-Folder($Path)
+{
+    If (!(Test-Path $Path)) {
+        #Write-Host "Folder $Path does not exists. Creating folder"
+        
+        # delimter character used when splitting folder paths
+        $DelimterChar = '\'
+        
+        # remove trailing slash if one is detected
+        If ($Path.Length -eq $Path.LastIndexOf($DelimterChar)+1) {
+            $Path = $Path.TrimEnd($DelimterChar)
+        }
+        
+        # $FolderPath is the path to the folder WIHTOUT the name of
+        # the folder included in the string
+        $FolderPath = $Path.Substring(0,$Path.LastIndexOf($DelimterChar)+1)
+        
+        # $FolderName is the folders name WITHOUT the path to the folder
+        $FolderName = $Path.Substring($Path.LastIndexOf($DelimterChar)+1, `
+            $Path.Length-$Path.LastIndexOf($DelimterChar)-1)
+        
+        New-Item -Path $FolderPath -Name $FolderName -ItemType "directory"
+    }
+
+    #If (Test-Path $Path) {
+    #    Write-Host "Folder $Path has now been created"
+    #} else {
+    #    Write-Host "Folder $Path does still not exists"
+    #}
+}
