@@ -25,7 +25,7 @@ $newItemX = @{ #Array to store menu point in
     Name = "ExampleName" #Some name WIHTOUT spaces
     DisplayName = "Example ultra short line!" #Line to be displayed
     Action = { ExampleFunction($args) } #Call cmdlet/function
-    DisableConfirm = $true #ONLY include to avoid confirm dialog after choosing menu entry
+    DisableConfirm = $true #OPTIONAL. Only include to avoid confirm dialog after choosing menu entry
 #>
 
 $newMenu = @{
