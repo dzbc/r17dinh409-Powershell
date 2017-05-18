@@ -6,7 +6,8 @@ Param(
 
 
 # Define Disk Quotas
-function Set-MailboxQuota($identity, $issueWarningQuota, $prohibitSendQuota, $prohibitSendReceiveQuota, $useDatabaseQuotaDefaults) {
+Function Set-MailboxQuota($identity, $issueWarningQuota, $prohibitSendQuota, $prohibitSendReceiveQuota, $useDatabaseQuotaDefaults)
+{
     Set-Mailbox -Identity $identity -IssueWarningQuota $issueWarningQuota `
     -ProhibitSendQuota $prohibitSendQuota -ProhibitSendReceiveQuota `
     $prohibitSendReceiveQuota -UseDatabaseQuotaDefaults $useDatabaseQuotaDefaults
@@ -14,11 +15,12 @@ function Set-MailboxQuota($identity, $issueWarningQuota, $prohibitSendQuota, $pr
 
 
 # Return NIC Index value from given NIC Interface Name
-function Get-NetIntIndex($intName) {
+Function Get-NetIntIndex($intName)
+{
     $intIndex = Get-NetAdapter -physical | 
         where name -eq $intName | select -expand ifIndex
 
-    if ($intIndex.length -eq 0) {
+    If ($intIndex.length -eq 0) {
         Write-Host "Sadly. No Interface was found IP Enabled with the given Interface Name."
         break;
     }
@@ -28,7 +30,8 @@ function Get-NetIntIndex($intName) {
 
 
 # Set IPv4 Address
-function Set-Ipv4Address($intName, $ipv4, $netmask, $gateway, $dns) {
+Function Set-Ipv4Address($intName, $ipv4, $netmask, $gateway, $dns)
+{
     $adapter = Get-CimInstance win32_NetworkAdapterConfiguration | `
         Where Index -eq (Get-NetIntIndex -intName $intName)
 
@@ -42,13 +45,15 @@ Set-Ipv4Address -intName "Ethernet" -ipv4 "192.0.2.2" `
 
 
 # Set IPv6 Address
-function Set-Ipv6Address() {}
+Function Set-Ipv6Address()
+{}
 
 
 # Set Network Interface mode to DHCP Enabled for both IPv4 and IPv6
 # and get DNS servers, too, with DHCP IP Address
-function Set-EnableDHCPInterface($intName, $setDnsToAuto = $true) {
-    if($intName.length -eq 0) {
+Function Set-EnableDHCPInterface($intName, $setDnsToAuto = $true)
+{
+    If ($intName.length -eq 0) {
         Write-Host 'ERROR: A Network Intrface Name was not given.'
         break
     }
@@ -66,9 +71,9 @@ function Set-EnableDHCPInterface($intName, $setDnsToAuto = $true) {
 
 
 # Create AD User
-function New-CsvADUsers($CsvFilePath = "C:\newuserstoad.txt"){
+Function New-CsvADUsers($CsvFilePath = "C:\newuserstoad.txt"){
     $Users = Import-Csv -Delimiter "," -Path $CsvFilePath
-    foreach ($User in $Users)
+    ForEach ($User in $Users)
     {
         $ADServer = "DC-01.5.5.2017.test.netravnen.eu"
         $SAM = $User.Firstname.Substring(0,3) + ($User.Lastname -replace ".{3}$")
@@ -79,10 +84,10 @@ function New-CsvADUsers($CsvFilePath = "C:\newuserstoad.txt"){
             + "@" `
             + $User.Maildomain
         
-        try {
+        Try {
             Get-ADUser -Identity $SAM -ErrorAction Stop
         }
-        catch [Microsoft.ActiveDirectory.Management.ADIdentityNotFoundException]
+        Catch [Microsoft.ActiveDirectory.Management.ADIdentityNotFoundException]
         {
             Write-Warning -Message 'Account not found'
         }
@@ -90,11 +95,12 @@ function New-CsvADUsers($CsvFilePath = "C:\newuserstoad.txt"){
         {
             If (!Get-DoesFolderExist("C:\Logs")) { New-Folder }
             $Time = ((Get-Date -Format o).Split("{+}")[0]) -replace ".{4}$"
-            "This script made a read attempt at $Time" | out-file C:\Log\New-ADUser.log -append
+            "This script made a read attempt at $Time" |
+                out-file "$computerLogFolder\New-ADUser.log" -append
         }
         
-        # Maximum length of SAM is 20 chars.
-        if ($SAM.length -gt 20) {
+        # Maximum length of SAM is 20 characters.
+        If ($SAM.length -gt 20) {
             # Log a message telling the $User creation failed
             <#
             --> log error code to system log or custom log file here
@@ -105,9 +111,9 @@ function New-CsvADUsers($CsvFilePath = "C:\newuserstoad.txt"){
         }
 
         # Create @var $UserInitials
-        $User.Firstname.split(' ') | foreach {$UserInitials += $_[0]}
-        $User.Othernames.split(' ') | foreach {$UserInitials += $_[0]}
-        $User.Lastname.split(' ') | foreach {$UserInitials += $_[0]}
+        $User.Firstname.split(' ') | ForEach {$UserInitials += $_[0]}
+        $User.Othernames.split(' ') | ForEach {$UserInitials += $_[0]}
+        $User.Lastname.split(' ') | ForEach {$UserInitials += $_[0]}
         
         Write-Host "\n\n" + 'DEBUG OUTPUT BEFORE NEW-ADUSER COMMAND IS EXECUTED' + "\n" + $User "\n\n"
         
@@ -165,8 +171,9 @@ function New-CsvADUsers($CsvFilePath = "C:\newuserstoad.txt"){
 
 
 # Start services (defualt only services set to auto-startup)
-function Set-StartStoppedServices($onlyAutoStartServices = $true) {
-    if($onlyAutoStartServices -eq $true) {
+Function Set-StartStoppedServices($onlyAutoStartServices = $true)
+{
+    If ($onlyAutoStartServices -eq $true) {
         $onlyAutoStartServices = 'auto'
     } else {
         break
@@ -185,7 +192,8 @@ function Set-StartStoppedServices($onlyAutoStartServices = $true) {
 
 
 # Get local Bios Params
-function Get-BiosParams() {
+Function Get-BiosParams()
+{
     Get-CimInstance -Class win32_bios -ComputerName $computerName
 }
 
