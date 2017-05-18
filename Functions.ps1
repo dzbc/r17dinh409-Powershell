@@ -65,15 +65,17 @@ function Set-EnableDHCPInterface($intName, $setDnsToAuto = $true) {
 
 
 # Create AD User
-function New-CsvADUsers($CsvFilePath = "C:\csvusers-list.txt"){
+function New-CsvADUsers($CsvFilePath = "C:\newuserstoad.txt"){
     $Users = Import-Csv -Delimiter "," -Path $CsvFilePath
     foreach ($User in $Users)
     {
         $ADServer = "DC-01.5.5.2017.test.netravnen.eu"
-        $SAM
-        $UserDisplayname = $User.Firstname + " " + $User.Lastname
+        $SAM = $Firstname.Substring(0,3) + ($Lastname -replace ".{3}$")
+        $UserDisplayname = $User.Firstname + " " + $User.Othernames `
+            + " " + $User.Lastname
         $UPN = $SAM + "." `
-            + <#(Get-Date -UFormat "T%H%M%S") +#> "@" `
+            <#+ (Get-Date -UFormat "T%H%M%S")#> `
+            + "@" `
             + $User.Maildomain
         
         try {
