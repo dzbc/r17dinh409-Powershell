@@ -28,7 +28,7 @@ function Get-NetIntIndex($intName) {
 
 # Set IPv4 Address
 function Set-Ipv4Address($intName, $ipv4, $netmask, $gateway, $dns) {
-    $adapter = Get-WmiObject win32_NetworkAdapterConfiguration | `
+    $adapter = Get-CimInstance win32_NetworkAdapterConfiguration | `
         Where Index -eq (Get-NetIntIndex -intName $intName)
 
     $adapter.EnableStatic($ipv4, $netmask)
@@ -52,7 +52,7 @@ function Set-EnableDHCPInterface($intName, $setDnsToAuto = $true) {
         break
     }
 
-    $adapter = Get-WmiObject win32_NetworkAdapterConfiguration | `
+    $adapter = Get-CimInstance win32_NetworkAdapterConfiguration | `
         Where Index -eq (Get-NetIntIndex -intName $intName)
     
     $adapter.SetDNSServerSearchOrder()
@@ -96,7 +96,7 @@ function start_stopped_services($onlyAutoStartServices = $true) {
         break
     }
 
-    Get-WmiObject win32_service |
+    Get-CimInstance win32_service |
         Where startmode -eq $onlyAutoStartServices |
         Where state -eq 'stopped'
 }
@@ -110,5 +110,5 @@ function start_stopped_services($onlyAutoStartServices = $true) {
 
 # Get local Bios Params
 function get_bios_params() {
-    Get-WmiObject -Class win32_bios -ComputerName $computerName
+    Get-CimInstance -Class win32_bios -ComputerName $computerName
 }
