@@ -7,16 +7,16 @@ Set-MenuOption -HeadingColor DarkCyan -MenuNameColor DarkGray -SubHeadingColor G
 Set-MenuOption -MaxWith 60
 
 $newItem1 = @{
-    Name = "get_bios_params()"
+    Name = "GetBiosParams"
     DisplayName = "Show Local Machine info"
-    Action = { get_bios_params }
+    Action = { Get-BiosParams }
     DisableConfirm = $true
 }
 
 $newItem3 = @{
     Name = "StartStoppedServices"
     DisplayName = "Start Stopped Services (Default is to start stopped services set to 'autostart')"
-    Action = { start_stopped_services }
+    Action = { Set-StartStoppedServices }
     DisableConfirm = $true
 }
 
@@ -32,6 +32,7 @@ $newItem4 = @{
     Name = "AddUsersToADFromCsvFile"
     DisplayName = "Create AD Users from Csv file"
     Action = { New-CsvADUsers }
+    DisableConfirm = $true
 }
 
 $newMenu = @{
