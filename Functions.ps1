@@ -5,7 +5,7 @@ Param(
 
 
 # Define Disk Quotas
-function set_mailbox_quota($identity, $issueWarningQuota, $prohibitSendQuota, $prohibitSendReceiveQuota, $useDatabaseQuotaDefaults) {
+function Set-MailboxQuota($identity, $issueWarningQuota, $prohibitSendQuota, $prohibitSendReceiveQuota, $useDatabaseQuotaDefaults) {
     Set-Mailbox -Identity $identity -IssueWarningQuota $issueWarningQuota `
     -ProhibitSendQuota $prohibitSendQuota -ProhibitSendReceiveQuota `
     $prohibitSendReceiveQuota -UseDatabaseQuotaDefaults $useDatabaseQuotaDefaults
@@ -89,7 +89,7 @@ function Set-EnableDHCPInterface($intName, $setDnsToAuto = $true) {
 
 
 # Start services (defualt only services set to auto-startup)
-function start_stopped_services($onlyAutoStartServices = $true) {
+function Set-StartStoppedServices($onlyAutoStartServices = $true) {
     if($onlyAutoStartServices -eq $true) {
         $onlyAutoStartServices = 'auto'
     } else {
@@ -109,6 +109,6 @@ function start_stopped_services($onlyAutoStartServices = $true) {
 
 
 # Get local Bios Params
-function get_bios_params() {
+function Get-BiosParams() {
     Get-CimInstance -Class win32_bios -ComputerName $computerName
 }
