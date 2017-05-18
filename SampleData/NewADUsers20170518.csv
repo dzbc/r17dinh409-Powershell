@@ -1,0 +1,2 @@
+Firstname,Lastname,Othernames,Maildomain,Password,City,Company,Country,Department,Description,Division,EmplyeeNumber,Manager,OfficePhone,OU,PostalCode,State,StreetAddress,Title
+Tobias,Tobiasen,Topi Top,localhost.test,abcd1234!!,Rostock,Molslinjen,DK,Check-in,Check Ind medarbejder,Havn,666,Rita Ritamasen,+45 10 20 30 40,"ou=Check-in,ou=Havn",4788,Falster,Havnevej 1,Check-in ansvarlig
