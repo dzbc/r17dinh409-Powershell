@@ -15,7 +15,7 @@ $newItem1 = @{
 
 $newItem3 = @{
     Name = "StartStoppedServices"
-    DisplayName = "Start Stopped Services (Default is to start stopped services set to 'autostart')"
+    DisplayName = "Start non-running auto-start services"
     Action = { Set-StartStoppedServices }
     DisableConfirm = $true
 }
