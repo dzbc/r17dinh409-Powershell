@@ -187,3 +187,18 @@ function Set-StartStoppedServices($onlyAutoStartServices = $true) {
 function Get-BiosParams() {
     Get-CimInstance -Class win32_bios -ComputerName $computerName
 }
+
+
+# Check if folder exists
+Function Get-DoesFolderExist($Path)
+{
+    $return = $False #default to $False
+    If (!($Path.Length -eq 0)) { #verify input is not zero characters
+        If (Test-Path $Path) { #verify folder exist
+            $return = $True
+        }
+    }
+    Return $return
+}
+
+
