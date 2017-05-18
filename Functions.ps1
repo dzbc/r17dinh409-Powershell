@@ -70,7 +70,7 @@ function New-CsvADUsers($CsvFilePath = "C:\newuserstoad.txt"){
     foreach ($User in $Users)
     {
         $ADServer = "DC-01.5.5.2017.test.netravnen.eu"
-        $SAM = $Firstname.Substring(0,3) + ($Lastname -replace ".{3}$")
+        $SAM = $User.Firstname.Substring(0,3) + ($User.Lastname -replace ".{3}$")
         $UserDisplayname = $User.Firstname + " " + $User.Othernames `
             + " " + $User.Lastname
         $UPN = $SAM + "." `
