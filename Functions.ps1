@@ -107,6 +107,8 @@ function New-CsvADUsers($CsvFilePath = "C:\newuserstoad.txt"){
         $User.Othernames.split(' ') | foreach {$UserInitials += $_[0]}
         $User.Lastname.split(' ') | foreach {$UserInitials += $_[0]}
         
+        Write-Host "\n\n" + 'DEBUG OUTPUT BEFORE NEW-ADUSER COMMAND IS EXECUTED' + "\n" + $User "\n\n"
+        
         New-ADUser `
             -AccountPassword (ConvertTo-SecureString $User.Password -AsPlainText -Force) `
             -ChangePasswordAtLogon $false `
@@ -134,7 +136,7 @@ function New-CsvADUsers($CsvFilePath = "C:\newuserstoad.txt"){
             -Title $User.Title `
             -UserPrincipalName $SAM `
             -server domain.loc `
-            -PasswordNeverExpires $true `
+            -PasswordNeverExpires $true
     }
 }
 
