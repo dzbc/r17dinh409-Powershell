@@ -1,3 +1,9 @@
+Param(
+    $computerName = $env:COMPUTERNAME,
+    $computerLogFolder = "C:\Logs",
+)
+
+
 # Create new folder
 Function New-Folder($Path) {
     If ((Test-Path $Path) -eq $False) {
@@ -21,12 +27,6 @@ Function New-Folder($Path) {
         
         New-Item -Path $FolderPath -Name $FolderName -ItemType "directory"
     }
-
-    #If (Test-Path $Path) {
-    #    Write-Host "Folder $Path has now been created"
-    #} Else {
-    #    Write-Host "Folder $Path does still not exists"
-    #}
 }
 
 
@@ -36,44 +36,14 @@ Function New-CsvADUsers($CsvFilePath = "C:\newuserstoad.txt") {
     ForEach ($User in $Users) {
         $ADServer = $DomainController
         $FN3chars = $User.Firstname.Substring(0,3)
-        $LN3chars = $User.Lastname -replace ".{3}$"
+        $LN3chars = $User.Lastname.Substring(($User.Lastname.Length)-3,3)
         $SAM =  ($FN3chars + $LN3chars).ToLower()
         $UserDisplayName = $User.Firstname + " " + $User.Othernames `
             + " " + $User.Lastname
-        $UPN = $SAM + "." `
-            <#+ (Get-Date -UFormat "T%H%M%S")#> `
-            + "@" `
-            + $User.Maildomain
+        $UPN = $SAM + "@" + $User.Maildomain
         
-        Try {
-            Get-ADUser -Identity $SAM -ErrorAction Stop
-        }
-        Catch [Microsoft.ActiveDirectory.Management.ADIdentityNotFoundException]
-        {
-            Write-Warning -Message 'Account not found'
-        }
-        Finally
-        {
-            If ((Test-Path "C:\Logs") -eq $False) {
-                New-Folder -Path "C:\Logs"
-            }
-            $Time = ((Get-Date -Format o).Split("{+}")[0]) -replace ".{4}$"
-            "This script made a read attempt at $Time" |
-                out-file "$computerLogFolder\New-ADUser.log" -append
-        }
-        
-        # Maximum length of SAM is 20 characters.
-        If ($SAM.length -gt 20) {
-            # Log a message telling the $User creation failed
-            <#
-            --> log error code to system log or custom log file here
-            #>
-            
-            # Stop creating current $User
-            Break
-        }
-
-        # Create @var $UserInitials
+        # Create var $UserInitials
+        $UserInitials = '' #define empty $var
         $User.Firstname.split(' ') | ForEach {$UserInitials += $_[0]}
         $User.Othernames.split(' ') | ForEach {$UserInitials += $_[0]}
         $User.Lastname.split(' ') | ForEach {$UserInitials += $_[0]}
@@ -107,7 +77,7 @@ Function New-CsvADUsers($CsvFilePath = "C:\newuserstoad.txt") {
             Name                  = "$UserDisplayName"
             OfficePhone           = $User.OfficePhone
             OtherName             = $User.Othernames
-            PasswordNeverExpires  = $True
+            PasswordNeverExpires  = $False
            #Path                  = $User.OU
             PostalCode            = $User.PostalCode
             SamAccountName        = $SAM
@@ -118,7 +88,27 @@ Function New-CsvADUsers($CsvFilePath = "C:\newuserstoad.txt") {
             Title                 = $User.Title
             UserPrincipalName     = $UPN
         }
+        
+        $success = $False
+        $ErrorMessage = $Null
+
+        Try {
+            New-ADUser @NewAdUserProperties -ErrorAction Stop
+            $success = $True
+        } Catch {
+            $sucess = $False
+            $ErrorMessage = $_.Exception.Message
+        }
+        Finally
+        {
+            If ((Test-Path "C:\Logs") -eq $False) { New-Folder -Path "C:\Logs" }
             
-        New-ADUser $NewAdUserProperties    
+            $Time = (Get-Date -Format o)
+            $Time = $Time.Split("{+}")[0]
+            $Time = $Time.Substring(($Time.Length)-4,4)
+            
+            "$Time - $success - $ErrorMessage" |
+                out-file "$computerLogFolder\New-ADUser.log" -append
+        }
     }
 }

@@ -1,8 +1,6 @@
 Param(
     $computerName = $env:COMPUTERNAME,
-    $computerTimestamp = ((Get-Date -Format o).Split("{+}")[0]) -replace ".{4}$",
     $computerLogFolder = "C:\Logs",
-    $domainController = "DC-01.5.5.2017.test.netravnen.eu"
 )
 
 

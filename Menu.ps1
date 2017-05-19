@@ -1,7 +1,7 @@
-# My own set of functions called from the menu
-Import-Module -Name $PSScriptRoot\Functions-Get.psm1 -Scope Global -Function Get-NetIntIndex,Get-BiosParams -Variable computerName,computerTimestamp,computerLogFolder,domainController
-Import-Module -Name $PSScriptRoot\Functions-Set.psm1 -Scope Global -Function Set-StartStoppedServices
-Import-Module -Name $PSScriptRoot\Functions-New.psm1 -Scope Global -Function New-CsvADUsers,New-Folder
+Import-Module -Name $PSScriptRoot\Functions-Get.psm1 -Function Get-NetIntIndex,Get-BiosParams
+Import-Module -Name $PSScriptRoot\Functions-New.psm1 -Function New-CsvADUsers
+#Import-Module -Name $PSScriptRoot\Functions-Set.psm1 -Function Set-StartStoppedServices
+
 
 # Default module from https://github.com/torgro/cliMenu
 Remove-Module cliMenu -ErrorAction SilentlyContinue
