@@ -88,33 +88,36 @@ Function New-CsvADUsers($CsvFilePath = "C:\newuserstoad.txt") {
             + "; UserInitials=" + $UserInitials `
             + "; server=" + $domainController
         
-        New-ADUser `
-            -AccountPassword (ConvertTo-SecureString $User.Password -AsPlainText -Force) `
-            -ChangePasswordAtLogon $True `
-            -City $User.City `
-            -Company $User.Company `
-            -Country $User.Country `
-            -Department $User.Department `
-            -Description $User.Description `
-            -DisplayName "$UserDisplayname" `
-            -Division $User.Division `
-            -EmployeeNumber $User.EmployeeNumber `
-            -Enabled $true `
-            -GivenName $User.Firstname `
-            -Initials $UserInitials `
-            #-Manager $User.Manager `
-            -Name "$UserDisplayname" `
-            -OfficePhone $User.OfficePhone `
-            -OtherName $User.Othernames `
-            -PasswordNeverExpires $true `
-            #-Path $User.OU `
-            -PostalCode $User.PostalCode `
-            -SamAccountName $SAM `
-            -Server $domainController `
-            -State $User.State `
-            -StreetAddress $User.StreetAddress `
-            -Surname $User.Lastname `
-            -Title $User.Title `
-            -UserPrincipalName $SAM
+        $NewAdUserProperties = @{
+            AccountPassword       = (ConvertTo-SecureString $User.Password -AsPlainText -Force)
+            ChangePasswordAtLogon = $True
+            City                  = $User.City
+            Company               = $User.Company
+            Country               = $User.Country
+            Department            = $User.Department
+            Description           = $User.Description
+            DisplayName           = $UserDisplayname
+            Division              = $User.Division
+            EmployeeNumber        = $User.EmployeeNumber
+            Enabled               = $true
+            GivenName             = $User.Firstname
+            Initials              = $UserInitials
+           #Manager               = $User.Manager
+            Name                  = $UserDisplayname
+            OfficePhone           = $User.OfficePhone
+            OtherName             = $User.Othernames
+            PasswordNeverExpires  = $true
+           #Path                  = $User.OU
+            PostalCode            = $User.PostalCode
+            SamAccountName        = $SAM
+            Server                = $domainController
+            State                 = $User.State
+            StreetAddress         = $User.StreetAddress
+            Surname               = $User.Lastname
+            Title                 = $User.Title
+            UserPrincipalName     = $SAM
+        }
+            
+        New-ADUser $NewAdUserProperties    
     }
 }
