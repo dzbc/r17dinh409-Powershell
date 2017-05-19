@@ -1,7 +1,5 @@
 [![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
 
-# Hobby project
-
 # Status on working functions
 
 ## Functions-Get.psm1
