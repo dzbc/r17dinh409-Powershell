@@ -1,6 +1,3 @@
-Import-Module -Name $PSScriptRoot\Functions-Get.psm1
-
-
 # Define Disk Quotas
 Function Set-MailboxQuota($identity, $issueWarningQuota, $prohibitSendQuota, $prohibitSendReceiveQuota, $useDatabaseQuotaDefaults) {
     Set-Mailbox -Identity $identity -IssueWarningQuota $issueWarningQuota `
