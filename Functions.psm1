@@ -37,8 +37,6 @@ function Set-Ipv4Address($intName, $ipv4, $netmask, $gateway, $dns) {
     $adapter.SetGateways($gateway, 1)
     $adapter.SetDNSServerSearchOrder($dns)
 }
-Set-Ipv4Address -intName "Ethernet" -ipv4 "192.0.2.2" `
-    -netmask '255.255.255.0' -gateway '192.0.2.1' -dns '192.0.2.254'
 
 
 # Set IPv6 Address
