@@ -83,8 +83,8 @@ function New-CsvADUsers($CsvFilePath = "C:\newuserstoad.txt") {
         
         Write-Host "\n\n" + 'DEBUG OUTPUT BEFORE NEW-ADUSER COMMAND IS EXECUTED' + "\n" + $User "\n\n"
         
-        New-ADUser `
-            -AccountPassword (ConvertTo-SecureString $User.Password -AsPlainText -Force) `
+        New-ADUser -AccountPassword (ConvertTo-SecureString `
+            $User.Password -AsPlainText -Force) `
             -ChangePasswordAtLogon $false `
             -City $User.City `
             -Company $User.Company `
