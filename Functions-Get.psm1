@@ -1,6 +1,6 @@
 Param(
     $computerName = $env:COMPUTERNAME,
-    $computerLogFolder = "C:\Logs",
+    $computerLogFolder = "C:\Logs"
 )
 
 
