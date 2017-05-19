@@ -1,4 +1,4 @@
-. "$PSScriptRoot\Functions.ps1"
+Import-Module -Name .\Functions.psm1
 
 Remove-Module cliMenu -ErrorAction SilentlyContinue; Import-Module .\cliMenu-master-c4e266e\CliMenu.psd1
 
