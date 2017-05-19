@@ -37,7 +37,7 @@ function New-Folder($Path) {
 function New-CsvADUsers($CsvFilePath = "C:\newuserstoad.txt") {
     $Users = Import-Csv -Delimiter "," -Path $CsvFilePath
     ForEach ($User in $Users) {
-        $ADServer = "DC-01.5.5.2017.test.netravnen.eu"
+        $ADServer = $domainController
         $SAM = $User.Firstname.Substring(0,3) + ($User.Lastname -replace ".{3}$")
         $UserDisplayname = $User.Firstname + " " + $User.Othernames `
             + " " + $User.Lastname
