@@ -1,8 +1,4 @@
-Param(
-    $computerName = $env:COMPUTERNAME,
-    $computerTimestamp = ((Get-Date -Format o).Split("{+}")[0]) -replace ".{4}$",
-    $computerLogFolder = "C:\Logs"
-)
+Import-Module -Name .\Functions-Get.psm1
 
 
 # Create new folder
