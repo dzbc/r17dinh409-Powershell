@@ -40,7 +40,7 @@ function New-CsvADUsers($CsvFilePath = "C:\newuserstoad.txt") {
         $ADServer = $domainController
         $FN3chars = $User.Firstname.Substring(0,3)
         $LN3chars = $User.Lastname -replace ".{3}$"
-        $SAM =  $FN3chars + $LN3chars
+        $SAM =  ($FN3chars + $LN3chars).ToLower()
         $UserDisplayname = $User.Firstname + " " + $User.Othernames `
             + " " + $User.Lastname
         $UPN = $SAM + "." `
@@ -84,10 +84,10 @@ function New-CsvADUsers($CsvFilePath = "C:\newuserstoad.txt") {
         Write-Host 'DEBUG OUTPUT BEFORE NEW-ADUSER COMMAND IS EXECUTED'
         Write-Host $User
         Write-Host 'OTHER INPUTS FOR NEW-ADUSER'
-        Write-Host 'UserDisplayname=' + $UserDisplayname `
-            + '; SAM=' + $SAM `
-            + '; UserInitials=' + $UserInitials `
-            + '; server=' + $domainController
+        Write-Host "UserDisplayname=" + $UserDisplayname `
+            + "; SAM=" + $SAM `
+            + "; UserInitials=" + $UserInitials `
+            + "; server=" + $domainController
         
         New-ADUser -Name $UserDisplayname `
             -AccountPassword (ConvertTo-SecureString `
