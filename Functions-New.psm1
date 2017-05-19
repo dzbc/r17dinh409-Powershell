@@ -38,7 +38,9 @@ function New-CsvADUsers($CsvFilePath = "C:\newuserstoad.txt") {
     $Users = Import-Csv -Delimiter "," -Path $CsvFilePath
     ForEach ($User in $Users) {
         $ADServer = $domainController
-        $SAM = $User.Firstname.Substring(0,3) + ($User.Lastname -replace ".{3}$")
+        $FN3chars = $User.Firstname.Substring(0,3)
+        $LN3chars = $User.Lastname -replace ".{3}$"
+        $SAM =  $FN3chars + $LN3chars
         $UserDisplayname = $User.Firstname + " " + $User.Othernames `
             + " " + $User.Lastname
         $UPN = $SAM + "." `
@@ -98,16 +100,16 @@ function New-CsvADUsers($CsvFilePath = "C:\newuserstoad.txt") {
             #-Manager $User.Manager `
             -Name "$UserDisplayname" `
             -OfficePhone $User.OfficePhone `
-            -OtherName $User.Othernames
+            -OtherName $User.Othernames `
             -Path $User.OU `
             -PostalCode $User.PostalCode `
             -SamAccountName $SAM `
-            -State $User.State
+            -State $User.State `
             -StreetAddress $User.StreetAddress `
             -Surname $User.Lastname `
             -Title $User.Title `
             -UserPrincipalName $SAM `
-            -server domain.loc `
+            -server $domainController `
             -PasswordNeverExpires $true
     }
 }
