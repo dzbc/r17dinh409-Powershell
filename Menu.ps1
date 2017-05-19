@@ -31,7 +31,7 @@ $newItemX = @{ #Array to store menu point in
 $newItem4 = @{
     Name = "AddUsersToADFromCsvFile"
     DisplayName = "Create AD Users from Csv file"
-    Action = { New-CsvADUsers }
+    Action = { New-CsvADUsers -CsvFilePath "C:\newuserstoad.txt" }
     DisableConfirm = $true
 }
 
