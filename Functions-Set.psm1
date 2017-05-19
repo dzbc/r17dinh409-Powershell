@@ -1,14 +1,6 @@
 Import-Module -Name $PSScriptRoot\Functions-Get.psm1
 
 
-Param(
-    $computerName = $env:COMPUTERNAME,
-    $computerTimestamp = ((Get-Date -Format o).Split("{+}")[0]) -replace ".{4}$",
-    $computerLogFolder = "C:\Logs",
-    $domainController = "DC-01.5.5.2017.test.netravnen.eu"
-)
-
-
 # Define Disk Quotas
 Function Set-MailboxQuota($identity, $issueWarningQuota, $prohibitSendQuota, $prohibitSendReceiveQuota, $useDatabaseQuotaDefaults) {
     Set-Mailbox -Identity $identity -IssueWarningQuota $issueWarningQuota `
