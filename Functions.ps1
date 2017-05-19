@@ -6,7 +6,7 @@ Param(
 
 
 # Define Disk Quotas
-Function Set-MailboxQuota($identity, $issueWarningQuota, $prohibitSendQuota, $prohibitSendReceiveQuota, $useDatabaseQuotaDefaults)
+function Set-MailboxQuota($identity, $issueWarningQuota, $prohibitSendQuota, $prohibitSendReceiveQuota, $useDatabaseQuotaDefaults)
 {
     Set-Mailbox -Identity $identity -IssueWarningQuota $issueWarningQuota `
     -ProhibitSendQuota $prohibitSendQuota -ProhibitSendReceiveQuota `
@@ -15,7 +15,7 @@ Function Set-MailboxQuota($identity, $issueWarningQuota, $prohibitSendQuota, $pr
 
 
 # Return NIC Index value from given NIC Interface Name
-Function Get-NetIntIndex($intName)
+function Get-NetIntIndex($intName)
 {
     $intIndex = Get-NetAdapter -physical | 
         Where name -eq $intName | select -expand ifIndex
@@ -30,7 +30,7 @@ Function Get-NetIntIndex($intName)
 
 
 # Set IPv4 Address
-Function Set-Ipv4Address($intName, $ipv4, $netmask, $gateway, $dns)
+function Set-Ipv4Address($intName, $ipv4, $netmask, $gateway, $dns)
 {
     $adapter = Get-CimInstance win32_NetworkAdapterConfiguration | `
         Where Index -eq (Get-NetIntIndex -intName $intName)
@@ -45,13 +45,13 @@ Set-Ipv4Address -intName "Ethernet" -ipv4 "192.0.2.2" `
 
 
 # Set IPv6 Address
-Function Set-Ipv6Address()
+function Set-Ipv6Address()
 {}
 
 
 # Set Network Interface mode to DHCP Enabled for both IPv4 and IPv6
 # and get DNS servers, too, with DHCP IP Address
-Function Set-EnableDHCPInterface($intName, $setDnsToAuto = $true)
+function Set-EnableDHCPInterface($intName, $setDnsToAuto = $true)
 {
     If ($intName.length -eq 0) {
         Write-Host 'ERROR: A Network Intrface Name was not given.'
@@ -71,7 +71,7 @@ Function Set-EnableDHCPInterface($intName, $setDnsToAuto = $true)
 
 
 # Create AD User
-Function New-CsvADUsers($CsvFilePath = "C:\newuserstoad.txt"){
+function New-CsvADUsers($CsvFilePath = "C:\newuserstoad.txt"){
     $Users = Import-Csv -Delimiter "," -Path $CsvFilePath
     ForEach ($User in $Users)
     {
@@ -171,7 +171,7 @@ Function New-CsvADUsers($CsvFilePath = "C:\newuserstoad.txt"){
 
 
 # Start services (defualt only services set to auto-startup)
-Function Set-StartStoppedServices($onlyAutoStartServices = $true)
+function Set-StartStoppedServices($onlyAutoStartServices = $true)
 {
     If ($onlyAutoStartServices -eq $true) {
         $onlyAutoStartServices = 'auto'
@@ -192,14 +192,14 @@ Function Set-StartStoppedServices($onlyAutoStartServices = $true)
 
 
 # Get local Bios Params
-Function Get-BiosParams()
+function Get-BiosParams()
 {
     Get-CimInstance -Class win32_bios -ComputerName $computerName
 }
 
 
 # Check if folder exists
-Function Get-DoesFolderExist($Path)
+function Get-DoesFolderExist($Path)
 {
     $return = $False #default to $False
     If (!($Path.Length -eq 0)) { #verify input is not zero characters
@@ -212,7 +212,7 @@ Function Get-DoesFolderExist($Path)
 
 
 # Create new folder
-Function New-Folder($Path)
+function New-Folder($Path)
 {
     If (!(Test-Path $Path)) {
         #Write-Host "Folder $Path does not exists. Creating folder"
