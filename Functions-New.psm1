@@ -81,7 +81,13 @@ function New-CsvADUsers($CsvFilePath = "C:\newuserstoad.txt") {
         $User.Othernames.split(' ') | ForEach {$UserInitials += $_[0]}
         $User.Lastname.split(' ') | ForEach {$UserInitials += $_[0]}
         
-        Write-Host "\n\n" + 'DEBUG OUTPUT BEFORE NEW-ADUSER COMMAND IS EXECUTED' + "\n" + $User "\n\n"
+        Write-Host 'DEBUG OUTPUT BEFORE NEW-ADUSER COMMAND IS EXECUTED'
+        Write-Host $User
+        Write-Host 'OTHER INPUTS FOR NEW-ADUSER'
+        Write-Host 'UserDisplayname=' + $UserDisplayname `
+            + '; SAM=' + $SAM `
+            + '; UserInitials=' + $UserInitials `
+            + '; server=' + $domainController
         
         New-ADUser -Name $UserDisplayname `
             -AccountPassword (ConvertTo-SecureString `
