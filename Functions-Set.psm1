@@ -1,4 +1,4 @@
-Import-Module -Name .\Functions-Get.psm1
+Import-Module -Name $PSScriptRoot\Functions-Get.psm1
 
 
 # Define Disk Quotas
