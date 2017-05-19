@@ -52,6 +52,7 @@ Function New-CsvADUsers($CsvFilePath = "C:\newuserstoad.txt") {
         $DomainController = "DC-01.5.5.2017.test.netravnen.eu"
         $UserInitials = $UserInitials.ToUpper()
         
+        <#
         Write-Host 'DEBUG OUTPUT BEFORE NEW-ADUSER COMMAND IS EXECUTED'
         Write-Host $User
         Write-Host 'OTHER INPUTS FOR NEW-ADUSER'
@@ -59,6 +60,7 @@ Function New-CsvADUsers($CsvFilePath = "C:\newuserstoad.txt") {
             + "; SAM=" + $SAM `
             + "; UserInitials=" + $UserInitials `
             + "; server=" + $DomainController
+        #>
         
         $NewAdUserProperties = @{
             AccountPassword       = (ConvertTo-SecureString $User.Password -AsPlainText -Force)
