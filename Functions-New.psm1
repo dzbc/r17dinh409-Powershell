@@ -95,7 +95,7 @@ function New-CsvADUsers($CsvFilePath = "C:\newuserstoad.txt") {
             -Enabled $true `
             -GivenName $User.Firstname `
             -Initials $UserInitials `
-            -Manager $User.Manager `
+            #-Manager $User.Manager `
             -Name "$UserDisplayname" `
             -OfficePhone $User.OfficePhone `
             -OtherName $User.Othernames
