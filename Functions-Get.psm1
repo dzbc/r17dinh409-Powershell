@@ -28,7 +28,7 @@ function Get-BiosParams() {
 # Check if folder exists
 function Get-DoesFolderExist($Path) {
     $return = $False #default to $False
-    If (!($Path.Length -eq 0)) { #verify input is not zero characters
+    If (($Path.Length -eq 0) -eq $False) { #verify input is not zero characters
         If (Test-Path $Path) { #verify folder exist
             $return = $True
         }

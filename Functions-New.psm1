@@ -3,7 +3,7 @@ Import-Module -Name .\Functions-Get.psm1
 
 # Create new folder
 function New-Folder($Path) {
-    If (!(Test-Path $Path)) {
+    If ((Test-Path $Path) -eq $False) {
         #Write-Host "Folder $Path does not exists. Creating folder"
         
         # delimter character used when splitting folder paths
