@@ -103,9 +103,7 @@ Function New-CsvADUsers($CsvFilePath = "C:\newuserstoad.txt") {
         {
             If ((Test-Path "C:\Logs") -eq $False) { New-Folder -Path "C:\Logs" }
             
-            $Time = (Get-Date -Format o)
-            $Time = $Time.Split("{+}")[0]
-            $Time = $Time.Substring(($Time.Length)-4,4)
+            $Time = ((Get-Date -Format o).Split("{+}")[0]) -replace ".{4}$"
             
             "$Time - $success - $ErrorMessage" |
                 out-file "$computerLogFolder\New-ADUser.log" -append
