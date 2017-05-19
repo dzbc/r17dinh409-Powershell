@@ -106,7 +106,7 @@ Function New-CsvADUsers($CsvFilePath = "C:\newuserstoad.txt") {
             
             New-LogCustomEvent -LogFile "$computerLogFolder\New-ADUser.log" `
                 -Success $success `
-                -LogMessage $ErrorMessage `
+                -LogMessage "$ErrorMessage - ACCOUNT $SAM $UserDisplayName" `
                 -Server $DomainController
         }
     }
