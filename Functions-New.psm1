@@ -1,8 +1,9 @@
 Param(
     $computerName = $env:COMPUTERNAME,
-    $computerLogFolder = "C:\Logs",
+    $computerLogFolder = "C:\Logs"
 )
 
+Import-Module -Name $PSScriptRoot\Functions-CustomLog.psm1 -Function New-LogCustomEvent
 
 # Create new folder
 Function New-Folder($Path) {
@@ -51,6 +52,7 @@ Function New-CsvADUsers($CsvFilePath = "C:\newuserstoad.txt") {
         $DomainController = "DC-01.5.5.2017.test.netravnen.eu"
         $UserInitials = $UserInitials.ToUpper()
         
+        <#
         Write-Host 'DEBUG OUTPUT BEFORE NEW-ADUSER COMMAND IS EXECUTED'
         Write-Host $User
         Write-Host 'OTHER INPUTS FOR NEW-ADUSER'
@@ -58,6 +60,7 @@ Function New-CsvADUsers($CsvFilePath = "C:\newuserstoad.txt") {
             + "; SAM=" + $SAM `
             + "; UserInitials=" + $UserInitials `
             + "; server=" + $DomainController
+        #>
         
         $NewAdUserProperties = @{
             AccountPassword       = (ConvertTo-SecureString $User.Password -AsPlainText -Force)
@@ -103,12 +106,10 @@ Function New-CsvADUsers($CsvFilePath = "C:\newuserstoad.txt") {
         {
             If ((Test-Path "C:\Logs") -eq $False) { New-Folder -Path "C:\Logs" }
             
-            $Time = (Get-Date -Format o)
-            $Time = $Time.Split("{+}")[0]
-            $Time = $Time.Substring(($Time.Length)-4,4)
-            
-            "$Time - $success - $ErrorMessage" |
-                out-file "$computerLogFolder\New-ADUser.log" -append
+            New-LogCustomEvent -LogFile "$computerLogFolder\New-ADUser.log" `
+                -Success $success `
+                -LogMessage "$ErrorMessage - ACCOUNT $SAM $UserDisplayName" `
+                -Server $DomainController
         }
     }
 }
