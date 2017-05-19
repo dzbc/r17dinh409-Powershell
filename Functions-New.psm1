@@ -55,7 +55,7 @@ function New-CsvADUsers($CsvFilePath = "C:\newuserstoad.txt") {
         }
         Finally
         {
-            If ((Get-DoesFolderExist -Path "C:\Logs") -eq $False) {
+            If ((Test-Path "C:\Logs") -eq $False) {
                 New-Folder -Path "C:\Logs"
             }
             $Time = ((Get-Date -Format o).Split("{+}")[0]) -replace ".{4}$"
