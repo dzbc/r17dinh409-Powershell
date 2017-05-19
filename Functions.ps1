@@ -18,7 +18,7 @@ Function Set-MailboxQuota($identity, $issueWarningQuota, $prohibitSendQuota, $pr
 Function Get-NetIntIndex($intName)
 {
     $intIndex = Get-NetAdapter -physical | 
-        where name -eq $intName | select -expand ifIndex
+        Where name -eq $intName | select -expand ifIndex
 
     If ($intIndex.length -eq 0) {
         Write-Host "Sadly. No Interface was found IP Enabled with the given Interface Name."
