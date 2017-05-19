@@ -1,5 +1,7 @@
 # My own set of functions called from the menu
-Import-Module -Name .\Functions.psm1
+Import-Module -Name .\Functions-Get.psm1
+Import-Module -Name .\Functions-Set.psm1
+Import-Module -Name .\Functions-New.psm1
 
 # Default module from https://github.com/torgro/cliMenu
 Remove-Module cliMenu -ErrorAction SilentlyContinue
