@@ -105,7 +105,7 @@ Function New-CsvADUsers($CsvFilePath = "C:\newuserstoad.txt") {
             
             $Time = ((Get-Date -Format o).Split("{+}")[0]) -replace ".{4}$"
             
-            "$Time - $success - $ErrorMessage" |
+            "$Time - SUCCESS $success - ERROR $ErrorMessage - ACCOUNT $SAM $UserDisplayName - DC $DomainController" |
                 out-file "$computerLogFolder\New-ADUser.log" -append
         }
     }
