@@ -7,7 +7,7 @@ Param(
 
 
 # Return NIC Index value from given NIC Interface Name
-Function Get-NetIntIndex($intName) {
+function Get-NetIntIndex($intName) {
     $intIndex = Get-NetAdapter -physical | 
         Where name -eq $intName | select -expand ifIndex
 
@@ -20,13 +20,13 @@ Function Get-NetIntIndex($intName) {
 }
 
 # Get local Bios Params
-Function Get-BiosParams() {
+function Get-BiosParams() {
     Get-CimInstance -Class win32_bios -ComputerName $computerName
 }
 
 
 # Check if folder exists
-<#Function Get-DoesFolderExist($Path) {
+<#function Get-DoesFolderExist($Path) {
     $Return = $False #default to $False
     If (($Path.Length -eq 0) -eq $False) { #verify input is not zero characters
         If (Test-Path $Path) { #verify folder exist
