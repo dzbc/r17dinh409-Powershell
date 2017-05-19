@@ -5,7 +5,7 @@
 ## Functions-Get.psm1
 - [X] Get-NetIntIndex(); Return NIC Index value from given NIC Interface Name
 - [X] Get-BiosParams(); Get local Bios Params
-- [X] Get-DoesFolderExist(); Check if folder exists
+- [ ] Get-DoesFolderExist(); Check if folder exists
 
 ## Functions-Set.psm1
 - [ ] Set-MailboxQuota(); Define Disk Quotas
