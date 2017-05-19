@@ -55,7 +55,7 @@ function New-CsvADUsers($CsvFilePath = "C:\newuserstoad.txt") {
         }
         Finally
         {
-            If (!(Get-DoesFolderExist("C:\Logs"))) { New-Folder }
+            If (!(Get-DoesFolderExist -Path "C:\Logs")) { New-Folder }
             $Time = ((Get-Date -Format o).Split("{+}")[0]) -replace ".{4}$"
             "This script made a read attempt at $Time" |
                 out-file "$computerLogFolder\New-ADUser.log" -append
