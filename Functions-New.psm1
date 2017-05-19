@@ -8,7 +8,7 @@ $domainController = "DC-01.5.5.2017.test.netravnen.eu"
 
 
 # Create new folder
-function New-Folder($Path) {
+Function New-Folder($Path) {
     If ((Test-Path $Path) -eq $False) {
         #Write-Host "Folder $Path does not exists. Creating folder"
         
@@ -40,7 +40,7 @@ function New-Folder($Path) {
 
 
 # Create AD User from csvimport
-function New-CsvADUsers($CsvFilePath = "C:\newuserstoad.txt") {
+Function New-CsvADUsers($CsvFilePath = "C:\newuserstoad.txt") {
     $Users = Import-Csv -Delimiter "," -Path $CsvFilePath
     ForEach ($User in $Users) {
         $ADServer = $domainController

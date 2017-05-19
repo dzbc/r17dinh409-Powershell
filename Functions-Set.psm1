@@ -2,7 +2,7 @@ Import-Module -Name $PSScriptRoot\Functions-Get.psm1
 
 
 # Define Disk Quotas
-function Set-MailboxQuota($identity, $issueWarningQuota, $prohibitSendQuota, $prohibitSendReceiveQuota, $useDatabaseQuotaDefaults) {
+Function Set-MailboxQuota($identity, $issueWarningQuota, $prohibitSendQuota, $prohibitSendReceiveQuota, $useDatabaseQuotaDefaults) {
     Set-Mailbox -Identity $identity -IssueWarningQuota $issueWarningQuota `
     -ProhibitSendQuota $prohibitSendQuota -ProhibitSendReceiveQuota `
     $prohibitSendReceiveQuota -UseDatabaseQuotaDefaults $useDatabaseQuotaDefaults
@@ -12,7 +12,7 @@ function Set-MailboxQuota($identity, $issueWarningQuota, $prohibitSendQuota, $pr
 
 
 # Set IPv4 Address
-function Set-Ipv4Address($intName, $ipv4, $netmask, $gateway, $dns) {
+Function Set-Ipv4Address($intName, $ipv4, $netmask, $gateway, $dns) {
     $adapter = Get-CimInstance win32_NetworkAdapterConfiguration | `
         Where Index -eq (Get-NetIntIndex -intName $intName)
 
@@ -24,12 +24,12 @@ function Set-Ipv4Address($intName, $ipv4, $netmask, $gateway, $dns) {
 
 
 # Set IPv6 Address
-function Set-Ipv6Address() {}
+Function Set-Ipv6Address() {}
 
 
 # Set Network Interface mode to DHCP Enabled for both IPv4 and IPv6
 # and get DNS servers, too, with DHCP IP Address
-function Set-EnableDHCPInterface($intName, $setDnsToAuto = $true) {
+Function Set-EnableDHCPInterface($intName, $setDnsToAuto = $true) {
     If ($intName.length -eq 0) {
         Write-Host 'ERROR: A Network Intrface Name was not given.'
         Break
@@ -48,7 +48,7 @@ function Set-EnableDHCPInterface($intName, $setDnsToAuto = $true) {
 
 
 # Start services (defualt only services set to auto-startup)
-function Set-StartStoppedServices($onlyAutoStartServices = $true) {
+Function Set-StartStoppedServices($onlyAutoStartServices = $true) {
     If ($onlyAutoStartServices -eq $true) {
         $onlyAutoStartServices = 'auto'
     } Else {
