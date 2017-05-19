@@ -3,6 +3,7 @@ Param(
     $computerLogFolder = "C:\Logs"
 )
 
+Import-Module -Name $PSScriptRoot\Functions-CustomLog.psm1 -Function New-LogCustomEvent
 
 # Create new folder
 Function New-Folder($Path) {
@@ -103,10 +104,10 @@ Function New-CsvADUsers($CsvFilePath = "C:\newuserstoad.txt") {
         {
             If ((Test-Path "C:\Logs") -eq $False) { New-Folder -Path "C:\Logs" }
             
-            $Time = ((Get-Date -Format o).Split("{+}")[0]) -replace ".{4}$"
-            
-            "$Time - SUCCESS $success - ERROR $ErrorMessage - ACCOUNT $SAM $UserDisplayName - DC $DomainController" |
-                out-file "$computerLogFolder\New-ADUser.log" -append
+            New-LogCustomEvent -LogFile "$computerLogFolder\New-ADUser.log" `
+                -Success $success `
+                -LogMessage $ErrorMessage `
+                -Server $DomainController
         }
     }
 }
