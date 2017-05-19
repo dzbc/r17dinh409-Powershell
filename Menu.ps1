@@ -1,6 +1,9 @@
+# My own set of functions called from the menu
 Import-Module -Name .\Functions.psm1
 
-Remove-Module cliMenu -ErrorAction SilentlyContinue; Import-Module .\cliMenu-master-c4e266e\CliMenu.psd1
+# Default module from https://github.com/torgro/cliMenu
+Remove-Module cliMenu -ErrorAction SilentlyContinue
+Import-Module .\cliMenu-master-c4e266e\CliMenu.psd1
 
 Set-MenuOption -Heading "Helpdesk Inteface System" -SubHeading "Show something to me" -MenuFillChar "#" -MenuFillColor DarkYellow
 Set-MenuOption -HeadingColor DarkCyan -MenuNameColor DarkGray -SubHeadingColor Green -FooterTextColor DarkGray
