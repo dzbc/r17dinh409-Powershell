@@ -2,7 +2,7 @@ Import-Module -Name $PSScriptRoot\Functions-Get.psm1
 
 
 # Create new folder
-function New-Folder($Path) {
+Function New-Folder($Path) {
     If ((Test-Path $Path) -eq $False) {
         #Write-Host "Folder $Path does not exists. Creating folder"
         
@@ -27,14 +27,14 @@ function New-Folder($Path) {
 
     #If (Test-Path $Path) {
     #    Write-Host "Folder $Path has now been created"
-    #} else {
+    #} Else {
     #    Write-Host "Folder $Path does still not exists"
     #}
 }
 
 
 # Create AD User from csvimport
-function New-CsvADUsers($CsvFilePath = "C:\newuserstoad.txt") {
+Function New-CsvADUsers($CsvFilePath = "C:\newuserstoad.txt") {
     $Users = Import-Csv -Delimiter "," -Path $CsvFilePath
     ForEach ($User in $Users) {
         $ADServer = $domainController
@@ -73,7 +73,7 @@ function New-CsvADUsers($CsvFilePath = "C:\newuserstoad.txt") {
             #>
             
             # Stop creating current $User
-            break
+            Break
         }
 
         # Create @var $UserInitials
@@ -89,9 +89,8 @@ function New-CsvADUsers($CsvFilePath = "C:\newuserstoad.txt") {
             + "; UserInitials=" + $UserInitials `
             + "; server=" + $domainController
         
-        New-ADUser -Name $UserDisplayname `
-            -AccountPassword (ConvertTo-SecureString `
-                $User.Password -AsPlainText -Force) `
+        New-ADUser `
+            -AccountPassword (ConvertTo-SecureString $User.Password -AsPlainText -Force) `
             -ChangePasswordAtLogon $True `
             -City $User.City `
             -Company $User.Company `
@@ -105,17 +104,18 @@ function New-CsvADUsers($CsvFilePath = "C:\newuserstoad.txt") {
             -GivenName $User.Firstname `
             -Initials $UserInitials `
             #-Manager $User.Manager `
+            -Name $UserDisplayname `
             -OfficePhone $User.OfficePhone `
             -OtherName $User.Othernames `
+            -PasswordNeverExpires $true `
             #-Path $User.OU `
             -PostalCode $User.PostalCode `
             -SamAccountName $SAM `
+            -Server $domainController `
             -State $User.State `
             -StreetAddress $User.StreetAddress `
             -Surname $User.Lastname `
             -Title $User.Title `
-            -UserPrincipalName $SAM `
-            -server $domainController `
-            -PasswordNeverExpires $true
+            -UserPrincipalName $SAM
     }
 }
